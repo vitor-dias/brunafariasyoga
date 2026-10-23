@@ -94,13 +94,15 @@ nav.menu a:hover { text-decoration: underline; text-underline-offset: 4px; }
 /* Preços */
 .pricing { background: var(--surface); border-radius: var(--radius); padding: clamp(24px, 4vw, 48px); display: grid; gap: 28px; }
 .table-scroll { overflow-x: auto; }
-table.prices { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 520px; }
+table.prices { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.prices-mobile { display: none; }
 .prices th, .prices td { padding: 16px 12px; text-align: center; border-bottom: 1px solid var(--line); }
 .prices thead th { font-weight: 500; font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .prices tbody th { text-align: left; font-weight: 500; white-space: nowrap; }
 .prices td b { display: block; font-size: 1.3rem; font-weight: 500; }
 .pay { color: var(--muted); max-width: 62ch; }
 .prices td.best b { color: var(--terra); }
+@media (max-width: 640px) { .prices-desktop { display: none; } .prices-mobile { display: table; table-layout: fixed; } .prices th, .prices td { padding: 14px 6px; } .prices tbody th { white-space: normal; } .prices thead th { letter-spacing: .04em; font-size: .75rem; } .prices td b { font-size: 1.1rem; } .pricing { padding: 20px 16px; } }
 .extras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .extra { border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 4px; }
 .extra span { color: var(--muted); font-size: .95rem; }
@@ -303,13 +305,24 @@ footer.site p { color: var(--muted); font-size: .95rem; }
 
       <div class="pricing">
         <div class="table-scroll">
-          <table class="prices">
+          <table class="prices prices-desktop">
             <thead>
               <tr><th scope="col"><span style="position:absolute;left:-9999px">Frequência</span></th><th scope="col">Mensal</th><th scope="col">Trimestral</th><th scope="col">Semestral</th><th scope="col">Anual</th></tr>
             </thead>
             <tbody>
               <tr><th scope="row">1x por semana</th><td><b>R$ 240</b></td><td><b>R$ 190</b></td><td><b>R$ 180</b></td><td class="best"><b>R$ 170</b></td></tr>
               <tr><th scope="row">2x por semana</th><td><b>R$ 340</b></td><td><b>R$ 290</b></td><td><b>R$ 280</b></td><td class="best"><b>R$ 270</b></td></tr>
+            </tbody>
+          </table>
+          <table class="prices prices-mobile">
+            <thead>
+              <tr><th scope="col"><span style="position:absolute;left:-9999px">Plano</span></th><th scope="col">1x/semana</th><th scope="col">2x/semana</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Mensal</th><td><b>R$ 240</b></td><td><b>R$ 340</b></td></tr>
+              <tr><th scope="row">Trimestral</th><td><b>R$ 190</b></td><td><b>R$ 290</b></td></tr>
+              <tr><th scope="row">Semestral</th><td><b>R$ 180</b></td><td><b>R$ 280</b></td></tr>
+              <tr><th scope="row">Anual</th><td class="best"><b>R$ 170</b></td><td class="best"><b>R$ 270</b></td></tr>
             </tbody>
           </table>
         </div>
