@@ -66,8 +66,20 @@ nav.menu { display: flex; gap: 28px; }
 nav.menu a { text-decoration: none; font-size: 1rem; }
 nav.menu a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .top .btn { min-height: 44px; padding: 8px 20px; font-size: 1rem; }
-@media (max-width: 1040px) { nav.menu { display: none; } }
-@media (max-width: 520px) { .brand .word { display: none; } .top .btn span { display: none; } .top .btn { padding: 8px 14px; } }
+.top-actions { display: flex; align-items: center; gap: 10px; }
+.menu-toggle { display: none; width: 44px; height: 44px; border: 1.5px solid var(--line); border-radius: 12px; background: transparent; color: var(--fg); cursor: pointer; place-items: center; }
+.menu-toggle svg { width: 22px; height: 22px; }
+.menu-toggle .i-close { display: none; }
+header.top.open .menu-toggle .i-open { display: none; }
+header.top.open .menu-toggle .i-close { display: block; }
+@media (max-width: 1040px) {
+  .menu-toggle { display: grid; }
+  nav.menu { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; gap: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding: 8px max(20px, env(safe-area-inset-right, 0px)) 16px max(20px, env(safe-area-inset-left, 0px)); box-shadow: 0 16px 24px -20px rgba(30, 40, 10, .4); }
+  header.top.open nav.menu { display: flex; }
+  nav.menu a { padding: 14px 0; font-size: 1.1rem; border-bottom: 1px solid var(--line); }
+  nav.menu a:last-child { border-bottom: 0; }
+}
+@media (max-width: 520px) { .brand .word { display: none; } .top .btn { padding: 8px 14px; font-size: .95rem; } }
 
 /* Hero */
 .hero { padding-block: clamp(72px, 11vw, 140px); }
@@ -175,15 +187,11 @@ a.ov:hover { border-color: var(--fg); }
 @media (max-width: 760px) { .visit { grid-template-columns: 1fr; } }
 
 /* Rodapé */
-footer.site { padding-block: 64px 120px; text-align: center; border-top: 1px solid var(--line); }
+footer.site { padding-block: 64px; text-align: center; border-top: 1px solid var(--line); }
 footer.site .wrap { display: grid; gap: 20px; justify-items: center; }
 footer.site img { width: 200px; }
 footer.site p { color: var(--muted); font-size: .95rem; }
 
-/* WhatsApp fixo */
-.float-wa { position: fixed; right: calc(20px + env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 30; display: inline-flex; align-items: center; gap: 10px; background: var(--wa); color: #fff; text-decoration: none; font-weight: 500; font-size: 1.05rem; padding: 14px 22px 14px 18px; border-radius: 999px; box-shadow: 0 12px 28px -12px rgba(30, 40, 10, .55); }
-.float-wa svg { width: 28px; height: 28px; }
-@media (max-width: 420px) { .float-wa { padding: 14px; } .float-wa span { display: none; } }
 </style>
 <style>body{margin:0}[hidden]{display:none!important}</style>
 </head>
@@ -199,7 +207,7 @@ footer.site p { color: var(--muted); font-size: .95rem; }
       <img class="mark" src="img/logo-mark.png" alt="" width="160" height="143">
       <img class="word" src="img/logo-word.png" alt="" width="360" height="102">
     </a>
-    <nav class="menu" aria-label="Principal">
+    <nav class="menu" id="menu" aria-label="Principal">
       <a href="#sobre">Sobre</a>
       <a href="#aulas">Aulas</a>
       <a href="#precos">Preços e horários</a>
@@ -207,9 +215,15 @@ footer.site p { color: var(--muted); font-size: .95rem; }
       <a href="#duvidas">Dúvidas</a>
       <a href="#localizacao">Como chegar</a>
     </nav>
-    <a class="btn btn-wa" href="https://wa.me/5511976447217?text=Ol%C3%A1%2C%20Bruna!%20Gostaria%20de%20agendar%20uma%20aula." target="_blank" rel="noopener" aria-label="Agendar pelo WhatsApp">
-      <svg aria-hidden="true"><use href="#i-wa"/></svg><span>Agendar aula</span>
-    </a>
+    <div class="top-actions">
+      <a class="btn btn-wa" href="https://wa.me/5511976447217?text=Ol%C3%A1%2C%20Bruna!%20Gostaria%20de%20agendar%20uma%20aula." target="_blank" rel="noopener" aria-label="Agendar aula pelo WhatsApp">
+        <svg aria-hidden="true"><use href="#i-wa"/></svg><span>Agendar aula</span>
+      </a>
+      <button class="menu-toggle" type="button" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+        <svg class="i-open" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="i-close" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -435,9 +449,18 @@ footer.site p { color: var(--muted); font-size: .95rem; }
   </div>
 </footer>
 
-<a class="float-wa" href="https://wa.me/5511976447217?text=Ol%C3%A1%2C%20Bruna!" target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><svg aria-hidden="true"><use href="#i-wa"/></svg><span>WhatsApp</span></a>
 
 <script>
+  (function () {
+    var header = document.querySelector('header.top'), btn = document.getElementById('menu-toggle');
+    function setOpen(open) {
+      header.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    }
+    btn.addEventListener('click', function () { setOpen(!header.classList.contains('open')); });
+    document.querySelectorAll('#menu a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
+  })();
   document.getElementById('copy-phone').addEventListener('click', function () {
     var btn = this, txt = document.getElementById('phone');
     navigator.clipboard.writeText('11976447217').then(function () {
