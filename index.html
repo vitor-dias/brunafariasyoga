@@ -194,6 +194,14 @@ footer.site p { color: var(--muted); font-size: .95rem; }
 
 </style>
 <style>body{margin:0}[hidden]{display:none!important}</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X596YE5DN0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X596YE5DN0');
+</script>
 </head>
 <body>
 
@@ -473,5 +481,15 @@ footer.site p { color: var(--muted); font-size: .95rem; }
   });
 </script>
 
+<script>
+  // Conta cliques no WhatsApp, na Hotmart e no Instagram como eventos no Google Analytics
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || typeof gtag !== 'function') return;
+    var h = a.href;
+    var nome = h.indexOf('wa.me') > -1 ? 'clique_whatsapp' : h.indexOf('hotmart.com') > -1 ? 'clique_hotmart' : h.indexOf('instagram.com') > -1 ? 'clique_instagram' : h.indexOf('google.com/maps') > -1 ? 'clique_mapa' : null;
+    if (nome) gtag('event', nome, { link_url: h, link_text: (a.textContent || '').trim().slice(0, 80) });
+  });
+</script>
 </body>
 </html>
